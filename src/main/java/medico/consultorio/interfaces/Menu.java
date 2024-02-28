@@ -41,6 +41,16 @@ public class Menu {
 		cadastroDePacientes.setBounds(10, 10, 180, 40);
 		agendamentoDeConsultas.setBounds(210,10,200,40);
 		pesquisas.setBounds(10, 80, 180, 40);
+		pesquisas.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MenuPesquisa menuPesquisa = new MenuPesquisa();
+				menuPesquisa.setMenuPesquisa();
+			}
+		});
+		
+		
 		exames.setBounds(210, 80, 200, 40);
 		
 		cadastroDePacientes.addActionListener(new ActionListener() {

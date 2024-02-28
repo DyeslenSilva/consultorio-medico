@@ -1,14 +1,20 @@
 package medico.consultorio.interfaces;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
+import medico.consultorio.interfaces.consulta.ConsultaPacinetePorCPF;
 
 public class MenuPesquisa {
 
 	
 	private JFrame menuPesquisa;
 	private JButton pesquisaPaciente, pesquisaConsulta;
-	private JButton pesquisaExames;
+	private JButton pesquisaExames , listaTodosPacientes;
+	
 	
 	public MenuPesquisa() {
 		menuPesquisa = new JFrame("Pesquisas no Banco");
@@ -16,6 +22,7 @@ public class MenuPesquisa {
 		pesquisaPaciente = new JButton("Pesquisa de Pacientes");
 		pesquisaConsulta = new JButton("Pesquisa de Consultas");
 		pesquisaExames = new JButton("Pesquisa De Exames");
+		listaTodosPacientes = new  JButton("Lista todos os Paciente");
 	}
 	
 	public void setMenuPesquisa() {
@@ -32,9 +39,20 @@ public class MenuPesquisa {
 		menuPesquisa.add(pesquisaPaciente);
 		menuPesquisa.add(pesquisaConsulta);
 		menuPesquisa.add(pesquisaExames);
+		menuPesquisa.add(listaTodosPacientes);
 		pesquisaPaciente.setBounds(10, 10, 200, 40);
+		pesquisaPaciente.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ConsultaPacinetePorCPF pacienteCPF = new ConsultaPacinetePorCPF();
+				pacienteCPF.setConsultaClienteCPF();
+			}
+		});
+		
 		pesquisaConsulta.setBounds(220, 10, 200, 40);
-		pesquisaExames.setBounds(10, 110, 160, 40);
+		pesquisaExames.setBounds(10, 110, 200, 40);
+		listaTodosPacientes.setBounds(220, 110, 200, 40);
 	}
 
 	public static void main(String[] args) {
