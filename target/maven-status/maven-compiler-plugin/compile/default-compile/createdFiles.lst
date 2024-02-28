@@ -1,0 +1,3 @@
+medico\consultorio\model\Paciente.class
+medico\consultorio\database\Conexao.class
+medico\consultorio\database\TesteConexao.class
