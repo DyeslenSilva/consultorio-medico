@@ -1,7 +1,12 @@
 package medico.consultorio.interfaces;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
+import medico.consultorio.interfaces.cadastro.CadastroDeClients;
 
 public class Menu {
 
@@ -37,6 +42,16 @@ public class Menu {
 		agendamentoDeConsultas.setBounds(210,10,200,40);
 		pesquisas.setBounds(10, 80, 180, 40);
 		exames.setBounds(210, 80, 200, 40);
+		
+		cadastroDePacientes.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					CadastroDeClients cadastroDeClients  =new CadastroDeClients();
+					cadastroDeClients.setCadastroDeClientes();
+			}
+		});
+		
 	}
 	
 	
