@@ -44,4 +44,15 @@ public class PacienteDAO {
 	}
 	
 	
+	public List<Paciente> consultaPacientePorEstado(String estado) {
+		String jpql = "select p from paciente p where p.estado  =:estado";
+		TypedQuery<Paciente> query = em.createQuery(jpql, Paciente.class);
+		query.setParameter("estado",estado);
+		List<Paciente> pacientesEstado = query.getResultList();
+		em.close();
+		return pacientesEstado;
+	}
+	
+	
+	
 }

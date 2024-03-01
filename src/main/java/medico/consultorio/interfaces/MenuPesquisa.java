@@ -6,7 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import medico.consultorio.interfaces.consulta.ConsultaPacinetePorCPF;
+import medico.consultorio.interfaces.pesquisas.ConsultaPacinetePorCPF;
+import medico.consultorio.interfaces.pesquisas.MenuConsultaPacientes;
 
 public class MenuPesquisa {
 
@@ -45,8 +46,7 @@ public class MenuPesquisa {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ConsultaPacinetePorCPF pacienteCPF = new ConsultaPacinetePorCPF();
-				pacienteCPF.setConsultaClienteCPF();
+				new MenuConsultaPacientes().setMenuConsulta();
 			}
 		});
 		

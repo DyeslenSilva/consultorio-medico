@@ -17,7 +17,9 @@ public class CadastroDeClients {
 
 	private JFrame cadastroDeClientes;
 	private JLabel lbCPF, lbNomePaciente,lbTelefone,lbEndereco, lbnCasa, lbCidade,lbEstado;
+	private JLabel lbDDD;
 	private JTextField txCPF, txNomePaciente,txTelefone,txEndereco,txNCasa,txCidade,txEstado;
+	private JTextField txDDD;
 	private JButton btCadastroDeCliente, btGerarCPF;
 	
 	public CadastroDeClients() {
@@ -25,6 +27,7 @@ public class CadastroDeClients {
 		
 		lbCPF = new JLabel("CPF");
 		lbNomePaciente = new JLabel("Nome do Paciente");
+		lbDDD = new JLabel("DDD");
 		lbTelefone = new JLabel("Telefone");
 		lbEndereco = new JLabel("Endereco");
 		lbnCasa = new JLabel("N Casa");
@@ -33,6 +36,7 @@ public class CadastroDeClients {
 		
 		txCPF = new JTextField();
 		txNomePaciente = new JTextField();
+		txDDD = new JTextField();
 		txTelefone = new JTextField();
 		txEndereco = new JTextField();
 		txNCasa = new JTextField();
@@ -58,6 +62,7 @@ public class CadastroDeClients {
 	private void jLabel() {
 		cadastroDeClientes.add(lbCPF);
 		cadastroDeClientes.add(lbNomePaciente);
+		cadastroDeClientes.add(lbDDD);
 		cadastroDeClientes.add(lbTelefone);
 		cadastroDeClientes.add(lbEndereco);
 		cadastroDeClientes.add(lbnCasa);
@@ -66,17 +71,19 @@ public class CadastroDeClients {
 		
 		lbCPF.setBounds(10, 10, 100, 20);
 		lbNomePaciente.setBounds(10, 40, 120, 20);
-		lbTelefone.setBounds(10, 70, 100, 20);
-		lbEndereco.setBounds(10, 100, 100, 20);
-		lbnCasa.setBounds(10, 130, 100, 20);
-		lbCidade.setBounds(10, 160, 100, 20);
-		lbEstado.setBounds(10, 190, 100, 20);
+		lbDDD.setBounds(10, 70, 100, 20);
+		lbTelefone.setBounds(10, 100, 100, 20);
+		lbEndereco.setBounds(10, 130, 100, 20);
+		lbnCasa.setBounds(10, 160, 100, 20);
+		lbCidade.setBounds(10, 190, 100, 20);
+		lbEstado.setBounds(10, 220, 100, 20);
 		
 	}
 	
 	private void jTextField() {
 		cadastroDeClientes.add(txCPF);
 		cadastroDeClientes.add(txNomePaciente);
+		cadastroDeClientes.add(txDDD);
 		cadastroDeClientes.add(txTelefone);
 		cadastroDeClientes.add(txEndereco);
 		cadastroDeClientes.add(txNCasa);
@@ -85,18 +92,19 @@ public class CadastroDeClients {
 		
 		txCPF.setBounds(130, 10, 140, 20);
 		txNomePaciente.setBounds(130, 40, 140, 20);
-		txTelefone.setBounds(130, 70, 140, 20);
-		txEndereco.setBounds(130, 100, 140, 20);
-		txNCasa.setBounds(130, 130, 140, 20);
-		txCidade.setBounds(130, 160, 140, 20);
-		txEstado.setBounds(130, 190, 140, 20);
+		txDDD.setBounds(130, 70, 140, 20);
+		txTelefone.setBounds(130, 100, 140, 20);
+		txEndereco.setBounds(130, 130, 140, 20);
+		txNCasa.setBounds(130, 160, 140, 20);
+		txCidade.setBounds(130, 190, 140, 20);
+		txEstado.setBounds(130, 220, 140, 20);
 		
 	}
 	
 	private void jButton() {
 		cadastroDeClientes.add(btCadastroDeCliente);
 		cadastroDeClientes.add(btGerarCPF);
-		btCadastroDeCliente.setBounds(50, 220, 100, 40);
+		btCadastroDeCliente.setBounds(50, 250, 100, 40);
 		btGerarCPF.setBounds(280, 10, 100, 20);
 
 		btGerarCPF.addActionListener(new ActionListener() {
@@ -115,6 +123,7 @@ public class CadastroDeClients {
 			public void actionPerformed(ActionEvent e) {
 				String cpf = txCPF.getText();
 				String nomePaciente = txNomePaciente.getText();
+				Integer ddd = Integer.parseInt(txDDD.getText());
 				String telefone = txTelefone.getText();
 				String endereco = txEndereco.getText();
 				Integer nCasa = Integer.parseInt(txNCasa.getText());
@@ -125,6 +134,7 @@ public class CadastroDeClients {
 				
 				paciente.setCpf(cpf);
 				paciente.setNomePaciente(nomePaciente);
+				paciente.setDdd(ddd);
 				paciente.setTelefone(telefone);
 				paciente.setEndereco(endereco);
 				paciente.setNCasa(nCasa);

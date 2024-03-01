@@ -5,6 +5,7 @@
 	    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 	    
 	    <class>medico.consultorio.model.Paciente</class>
+	   	<class>medico.consultorio.model.Medico</class>
 	    	
 	    <properties>
 	     	<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3308/consultorioMedico"/>

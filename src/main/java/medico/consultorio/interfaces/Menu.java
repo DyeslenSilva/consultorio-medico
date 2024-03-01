@@ -14,6 +14,7 @@ public class Menu {
 	private JButton cadastroDePacientes, agendamentoDeConsultas;
 	private JButton pesquisas;
 	private JButton exames;
+	private JButton profissionaisMedicos;
 	
 	public Menu() {
 		menu = new JFrame();
@@ -22,6 +23,7 @@ public class Menu {
 		agendamentoDeConsultas = new JButton("Agendamento de Consultas");
 		pesquisas = new JButton("Pesquisas");
 		exames = new JButton("Exames");
+		profissionaisMedicos = new JButton("Profissionais Medicos");
 	}
 	
 	public void setMenu() {

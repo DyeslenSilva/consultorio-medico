@@ -7,17 +7,21 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-@Data
-@Entity(name = "paciente")
 @Table
-public class Paciente {
-	
+@Entity(name = "medico")
+@Data
+public class Medico {
+
 	@Id
-	private String cpf;
+	private String crm;
 	
 	@Column
-	private String nomePaciente;
-
+	private String nomeMedico;
+	
+	
+	@Column
+	private String especialidade;
+	
 	@Column
 	private Integer ddd;
 	
@@ -25,10 +29,7 @@ public class Paciente {
 	private String telefone;
 	
 	@Column
-	private String endereco;
-	
-	@Column
-	private Integer nCasa;
+	private String email;
 	
 	@Column
 	private String cidade;
@@ -36,6 +37,4 @@ public class Paciente {
 	@Column
 	private String estado;
 	
-	
-
 }

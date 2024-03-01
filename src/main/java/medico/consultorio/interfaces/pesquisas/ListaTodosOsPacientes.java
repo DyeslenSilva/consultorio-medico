@@ -1,4 +1,4 @@
-package medico.consultorio.interfaces.consulta;
+package medico.consultorio.interfaces.pesquisas;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -36,7 +36,7 @@ public class ListaTodosOsPacientes {
         
        // ajusteTamanhoColuna();
         
-        scrollPane.setBounds(10, 60, 560, 300);
+        scrollPane.setBounds(10, 60, 600, 300);
         listaTodosOsPacientes.add(scrollPane);
 
         listaTodosOsPacientes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,6 +56,7 @@ public class ListaTodosOsPacientes {
 
                 dtm.addColumn("CPF");
                 dtm.addColumn("Nome Completo");
+                dtm.addColumn("DDD");
                 dtm.addColumn("Telefone");
                 dtm.addColumn("Endereco");
                 dtm.addColumn("N");
@@ -66,6 +67,7 @@ public class ListaTodosOsPacientes {
                     Object[] row = {
                             paciente.getCpf(),
                             paciente.getNomePaciente(),
+                            paciente.getDdd(),
                             paciente.getTelefone(),
                             paciente.getEndereco(),
                             paciente.getNCasa(),
@@ -82,13 +84,14 @@ public class ListaTodosOsPacientes {
     }
 
     private void ajusteTamanhoColuna() {
-    	listaDeTodosOsPacientes.getColumnModel().getColumn(0).setPreferredWidth(200); // CPF
-        listaDeTodosOsPacientes.getColumnModel().getColumn(1).setPreferredWidth(250); // Nome Completo
-        listaDeTodosOsPacientes.getColumnModel().getColumn(2).setPreferredWidth(220); // Telefone
-        listaDeTodosOsPacientes.getColumnModel().getColumn(3).setPreferredWidth(270); // Endereco
-        listaDeTodosOsPacientes.getColumnModel().getColumn(4).setPreferredWidth(50);  // N
-        listaDeTodosOsPacientes.getColumnModel().getColumn(5).setPreferredWidth(320); // Cidade
-        listaDeTodosOsPacientes.getColumnModel().getColumn(6).setPreferredWidth(50); // Estado
+    	listaDeTodosOsPacientes.getColumnModel().getColumn(0).setPreferredWidth(330); // CPF
+        listaDeTodosOsPacientes.getColumnModel().getColumn(1).setPreferredWidth(440);// Nome Completo
+        listaDeTodosOsPacientes.getColumnModel().getColumn(2).setPreferredWidth(100);//DDD
+        listaDeTodosOsPacientes.getColumnModel().getColumn(3).setPreferredWidth(350); // Telefone
+        listaDeTodosOsPacientes.getColumnModel().getColumn(4).setPreferredWidth(550); // Endereco
+        listaDeTodosOsPacientes.getColumnModel().getColumn(5).setPreferredWidth(50);  // N
+        listaDeTodosOsPacientes.getColumnModel().getColumn(6).setPreferredWidth(350); // Cidade
+        listaDeTodosOsPacientes.getColumnModel().getColumn(7).setPreferredWidth(50); // Estado
     }
     
     private void jScrollPane() {
