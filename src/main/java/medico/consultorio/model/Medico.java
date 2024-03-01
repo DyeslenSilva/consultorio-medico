@@ -6,10 +6,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Table
 @Entity(name = "medico")
 @Data
+@ToString
 public class Medico {
 
 	@Id
@@ -36,5 +38,10 @@ public class Medico {
 	
 	@Column
 	private String estado;
+	
+	@Override
+	public String toString() {
+		return getNomeMedico();
+	}
 	
 }
