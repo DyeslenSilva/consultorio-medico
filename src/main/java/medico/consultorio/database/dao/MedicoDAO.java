@@ -40,4 +40,12 @@ public class MedicoDAO {
 			em.close();
 			return medico;
 		}
+		
+		public List<Medico> buscaMedicoPorEstado(String estado){
+			String jpql = "select p from medico  p where p.estado =:estado";
+			TypedQuery<Medico> queryList = em.createQuery(jpql, Medico.class);
+			List<Medico> medicoPorEstado = queryList.getResultList();
+			return medicoPorEstado;
+		}
+		
 }
