@@ -27,8 +27,13 @@ import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+import estado.sistema.dao.EstadoDAO;
+import medico.consultorio.database.dao.ConsultaDAO;
 import medico.consultorio.database.dao.MedicoDAO;
 import medico.consultorio.database.dao.PacienteDAO;
+import medico.consultorio.model.ConsultaMedica;
+import medico.consultorio.model.GeradorToken;
+import medico.consultorio.model.GerarCPF;
 import medico.consultorio.model.Medico;
 import medico.consultorio.model.Paciente;
 
@@ -38,16 +43,22 @@ public class AgendarConsultaMedica {
 	private JFrame agendarConsultaMedica;
 	private JLabel lbCPFPaciente, lbNomePaciente, lbMedico,lbEspecialidade,lbDataConsulta;
 	private JLabel lbHoraConsulta, lbEndereco, lbNLocal , lbCidadeConsulta , lbEstadoConsulta;
+	private JLabel lbTokenConsulta;
 	private JTextField txCPF, txNomePaciente,txEspecialidade, txDataConsulta;
 	private JTextField txHoraConsulta, txEndereco, txNLocal, txCidadeConsulta, txEstadoConsulta;
+	private JTextField txTokenConsulta;
 	private JButton btPesquisaPaciente, btCalendarioAnual, btHoraConsulta, btAgendarConsulta;
+	private JButton btGerarToken;
+	
 	private JComboBox<Medico> jcbMedicos;
+	private JComboBox<String>estados;
 	
 	
 	
 	public AgendarConsultaMedica() {
 		agendarConsultaMedica = new JFrame("Agendar Consulta Médica");
 		
+		lbTokenConsulta = new JLabel("Token da Consulta");
 		lbCPFPaciente = new JLabel("CPF");
 		lbNomePaciente = new JLabel("Nome do Paciente");
 		lbMedico = new JLabel("Medico");
@@ -59,6 +70,7 @@ public class AgendarConsultaMedica {
 		lbCidadeConsulta = new  JLabel("Cidade");
 		lbEstadoConsulta = new JLabel("Estado");
 		
+		txTokenConsulta = new JTextField();
 		txCPF = new JTextField();
 		txNomePaciente = new JTextField();
 		txEspecialidade = new JTextField();
@@ -67,10 +79,13 @@ public class AgendarConsultaMedica {
 		txEndereco = new JTextField();
 		txNLocal = new JTextField();
 		txCidadeConsulta = new JTextField();
-		txEstadoConsulta = new JTextField();
+		//txEstadoConsulta = new JTextField();
 		
+		
+		estados = new JComboBox<String>();
 		jcbMedicos = new JComboBox<Medico>();
-		
+		estados = new JComboBox<String>();
+		btGerarToken = new JButton("Gerar Token");
 		btPesquisaPaciente = new JButton("Pesquisa");
 		btCalendarioAnual = new JButton("Calendario");
 		btHoraConsulta = new JButton("Hora da Consulta");
@@ -85,7 +100,7 @@ public class AgendarConsultaMedica {
 		agendarConsultaMedica.setLayout(null);
 
 		jLabel();
-		jTextField();
+		comps();
 		jButton();
 		jComboBox();
 		
@@ -95,6 +110,7 @@ public class AgendarConsultaMedica {
 
 
 	private void jLabel() {
+		agendarConsultaMedica.add(lbTokenConsulta);
 		agendarConsultaMedica.add(lbCPFPaciente);
 		agendarConsultaMedica.add(lbNomePaciente);
 		agendarConsultaMedica.add(lbMedico);
@@ -106,19 +122,21 @@ public class AgendarConsultaMedica {
 		agendarConsultaMedica.add(lbCidadeConsulta);
 		agendarConsultaMedica.add(lbEstadoConsulta);
 		
-		lbCPFPaciente.setBounds(10, 10, 100, 20);
-		lbNomePaciente.setBounds(10, 40, 120, 20);
-		lbMedico.setBounds(10, 70, 100, 20);
-		lbEspecialidade.setBounds(10,100,120,	20);
-		lbDataConsulta.setBounds(10,130,120,20);
-		lbHoraConsulta.setBounds(10, 160, 120, 20);
-		lbEndereco.setBounds(10, 190, 120, 20);
-		lbNLocal.setBounds(10, 220, 100, 20);
-		lbCidadeConsulta.setBounds(10, 250, 120, 20);
-		lbEstadoConsulta.setBounds(10, 280, 120, 20);
+		lbTokenConsulta.setBounds(10, 10, 140, 20);
+		lbCPFPaciente.setBounds(10, 40, 100, 20);
+		lbNomePaciente.setBounds(10, 70, 120, 20);
+		lbMedico.setBounds(10, 100, 100, 20);
+		lbEspecialidade.setBounds(10,130,120,	20);
+		lbDataConsulta.setBounds(10,160,120,20);
+		lbHoraConsulta.setBounds(10, 190, 120, 20);
+		lbEndereco.setBounds(10, 220, 120, 20);
+		lbNLocal.setBounds(10, 250, 100, 20);
+		lbCidadeConsulta.setBounds(10, 280, 120, 20);
+		lbEstadoConsulta.setBounds(10, 310, 120, 20);
 	}
 
-	private void jTextField() {
+	private void comps() {
+		agendarConsultaMedica.add(txTokenConsulta);
 		agendarConsultaMedica.add(txCPF);
 		agendarConsultaMedica.add(txNomePaciente);
 		agendarConsultaMedica.add(txEspecialidade);
@@ -127,32 +145,53 @@ public class AgendarConsultaMedica {
 		agendarConsultaMedica.add(txEndereco);
 		agendarConsultaMedica.add(txNLocal);
 		agendarConsultaMedica.add(txCidadeConsulta);
-		agendarConsultaMedica.add(txEstadoConsulta);
 		
-		txCPF.setBounds(150, 10, 130, 20);
-		txNomePaciente.setBounds(150, 40, 130, 20);
-		txEspecialidade.setBounds(150, 100, 130, 20);
-		txDataConsulta.setBounds(150, 130, 130, 20);
-		txHoraConsulta.setBounds(150, 160, 130, 20);
-		txEndereco.setBounds(150, 190, 130, 20);
-		txNLocal.setBounds(150, 220, 130, 20);
-		txCidadeConsulta.setBounds(150, 250, 130, 20);
-		txEstadoConsulta.setBounds(150, 280, 130, 20);
+		txTokenConsulta.setBounds(150, 10, 130, 20);
+		txCPF.setBounds(150, 40, 130, 20);
+		txNomePaciente.setBounds(150, 70, 130, 20);
+		txEspecialidade.setBounds(150, 130, 130, 20);
+		txDataConsulta.setBounds(150, 160, 130, 20);
+		txHoraConsulta.setBounds(150, 190, 130, 20);
+		txEndereco.setBounds(150, 220, 130, 20);
+		txNLocal.setBounds(150, 250, 130, 20);
+		txCidadeConsulta.setBounds(150, 280, 130, 20);
+		
 	}
 
 	
 	
+	private void carregarEstados() {
+		EstadoDAO estadoDAO = new EstadoDAO();
+		List<String> listSiglas = estadoDAO.siglaEstado();
+		for(String siglas : listSiglas) {
+			estados.addItem(siglas);
+		}
+	}
+	
+	
 	
 	private void jButton() {
+		agendarConsultaMedica.add(btGerarToken);
 		agendarConsultaMedica.add(btPesquisaPaciente);
 		agendarConsultaMedica.add(btCalendarioAnual);
 		agendarConsultaMedica.add(btHoraConsulta);
 		agendarConsultaMedica.add(btAgendarConsulta);
 		
-		btPesquisaPaciente.setBounds(290, 10, 190, 20);
-		btCalendarioAnual.setBounds(290, 130, 190, 20);
-		btHoraConsulta.setBounds(290, 160, 190, 20);
-		btAgendarConsulta.setBounds(110, 330, 190, 40);
+		btGerarToken.setBounds(290, 10, 190, 20);
+		btPesquisaPaciente.setBounds(290, 40, 190, 20);
+		btCalendarioAnual.setBounds(290, 160, 190, 20);
+		btHoraConsulta.setBounds(290, 190, 190, 20);
+		btAgendarConsulta.setBounds(110, 360, 190, 40);
+		
+		btGerarToken.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String token = GeradorToken.gerarToken(10);
+				txTokenConsulta.setText(token);
+				
+			}
+		});	
 		
 		btPesquisaPaciente.addActionListener(new ActionListener() {
 			
@@ -211,13 +250,73 @@ public class AgendarConsultaMedica {
 				horaDaConsulta.setVisible(true);
 			}
 		});
+		
+		btAgendarConsulta.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String token  = txTokenConsulta.getText();
+				String cpf = txCPF.getText();
+				String nome = txNomePaciente.getText();
+				String medico = ((Medico) jcbMedicos.getSelectedItem()).getNomeMedico();
+				String especialidade = txEspecialidade.getText();
+				String dataDaConsulta = txDataConsulta.getText();
+				String horaDaConsulta = txHoraConsulta.getText();
+				String endereco = txEndereco.getText();
+				Integer n = Integer.parseInt(txNLocal.getText());
+				String cidade = txCidadeConsulta.getText();
+				String estado = estados.getSelectedItem().toString();
+				
+				ConsultaMedica cm = new ConsultaMedica();
+				cm.setToken(token);
+				cm.setCpf(cpf);
+				cm.setNomeDoPaciente(nome);
+				cm.setNomeMedico(medico);
+				cm.setEspecialidade(especialidade);
+				cm.setDataDaConsulta(dataDaConsulta);
+				cm.setHoraDaConsulta(horaDaConsulta);
+				cm.setEndereco(endereco);
+				cm.setN(n);
+				cm.setCidade(cidade);
+				cm.setEstado(estado);
+				
+				ConsultaDAO conDAO = new ConsultaDAO();
+				conDAO.cadastroDeConsulta(cm);
+				limparCaixaDeTexto();
+				fecharJanela();
+				
+			}
+		});
+		
 	}
 	
+	protected void fecharJanela() {
+		agendarConsultaMedica.dispose();
+	}
+
+	protected void limparCaixaDeTexto() {
+		String vazia = "";
+		txTokenConsulta.setText(vazia);
+		txCPF.setText(vazia);
+		txNomePaciente.setText(vazia);
+		txEspecialidade.setText(vazia);
+		txDataConsulta.setText(vazia);
+		txHoraConsulta.setText(vazia);
+		txEndereco.setText(vazia);
+		txNLocal.setText(vazia);
+		txCidadeConsulta.setText(vazia);
+		//txEstadoConsulta.setText(vazia);
+	}
+
 	private void jComboBox() {
 		agendarConsultaMedica.add(jcbMedicos);
+		agendarConsultaMedica.add(estados);
 		
-		jcbMedicos.setBounds(150, 70, 130, 20);
+		estados.setBounds(150, 310, 130, 20);
+
+		jcbMedicos.setBounds(150, 100, 130, 20);
 		
+		carregarEstados();
 	}
 	
 	

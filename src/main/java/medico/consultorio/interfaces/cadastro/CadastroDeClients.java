@@ -2,12 +2,16 @@ package medico.consultorio.interfaces.cadastro;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import estado.sistema.dao.EstadoDAO;
+import estado.sistema.model.Estado;
 import medico.consultorio.database.dao.PacienteDAO;
 import medico.consultorio.model.GeradorCPF;
 import medico.consultorio.model.GerarCPF;
@@ -20,6 +24,8 @@ public class CadastroDeClients {
 	private JLabel lbDDD;
 	private JTextField txCPF, txNomePaciente,txTelefone,txEndereco,txNCasa,txCidade,txEstado;
 	private JTextField txDDD;
+	private JComboBox<String> estados;
+	
 	private JButton btCadastroDeCliente, btGerarCPF;
 	
 	public CadastroDeClients() {
@@ -41,7 +47,9 @@ public class CadastroDeClients {
 		txEndereco = new JTextField();
 		txNCasa = new JTextField();
 		txCidade = new JTextField();
-		txEstado = new JTextField();
+		//txEstado = new JTextField();
+		
+		estados = new JComboBox<String>();
 		
 		btCadastroDeCliente = new JButton("Cadastrar");
 		btGerarCPF = new JButton("Gerar CPF");
@@ -52,7 +60,7 @@ public class CadastroDeClients {
 		cadastroDeClientes.setSize(440, 400);
 		cadastroDeClientes.setLayout(null);
 		jLabel();
-		jTextField();
+		dados();
 		jButton();
 		cadastroDeClientes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		cadastroDeClientes.setVisible(true);
@@ -80,7 +88,7 @@ public class CadastroDeClients {
 		
 	}
 	
-	private void jTextField() {
+	private void dados() {
 		cadastroDeClientes.add(txCPF);
 		cadastroDeClientes.add(txNomePaciente);
 		cadastroDeClientes.add(txDDD);
@@ -88,7 +96,7 @@ public class CadastroDeClients {
 		cadastroDeClientes.add(txEndereco);
 		cadastroDeClientes.add(txNCasa);
 		cadastroDeClientes.add(txCidade);
-		cadastroDeClientes.add(txEstado);
+		cadastroDeClientes.add(estados);
 		
 		txCPF.setBounds(130, 10, 140, 20);
 		txNomePaciente.setBounds(130, 40, 140, 20);
@@ -97,7 +105,10 @@ public class CadastroDeClients {
 		txEndereco.setBounds(130, 130, 140, 20);
 		txNCasa.setBounds(130, 160, 140, 20);
 		txCidade.setBounds(130, 190, 140, 20);
-		txEstado.setBounds(130, 220, 140, 20);
+		estados.setBounds(130, 220, 140, 20);
+		
+		carregarEstados();
+		
 		
 	}
 	
@@ -128,7 +139,7 @@ public class CadastroDeClients {
 				String endereco = txEndereco.getText();
 				Integer nCasa = Integer.parseInt(txNCasa.getText());
 				String cidade = txCidade.getText();
-				String estado = txEstado.getText();
+				String estado = estados.getSelectedItem().toString();  
 				
 				Paciente paciente = new Paciente();
 				
@@ -159,13 +170,24 @@ public class CadastroDeClients {
 		String vazio = "";
 		txCPF.setText(vazio);
 		txNomePaciente.setText(vazio);
+		txDDD.setText(vazio);
 		txTelefone.setText(vazio);
 		txEndereco.setText(vazio);
 		txNCasa.setText(vazio);
 		txCidade.setText(vazio);
-		txEstado.setText(vazio);
+	//	txEstado.setText(vazio);
+		
 	}
 	
+	
+	private void carregarEstados() {
+		EstadoDAO estadoDAO = new EstadoDAO();
+		List<String> listSigla = estadoDAO.siglaEstado();
+		
+		for(String sigla : listSigla) {
+			estados.addItem(sigla);
+		}
+	}
 	
 	
 	public static void main(String[] args) {

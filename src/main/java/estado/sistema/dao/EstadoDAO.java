@@ -33,7 +33,13 @@ public class EstadoDAO {
 		TypedQuery<Estado> query = em.createQuery(jpql,Estado.class);
 		List<Estado> listaEstado = query.getResultList();
 		return listaEstado;
-		
 	}
 	
+	
+	public List<String> siglaEstado(){
+		String jpql = "SELECT e.uf FROM estado e";
+		TypedQuery<String> query = em.createQuery(jpql, String.class);
+		return query.getResultList();
+	
+	}
 }
