@@ -7,6 +7,8 @@
 	    <class>medico.consultorio.model.Paciente</class>
 	   	<class>medico.consultorio.model.Medico</class>
 	   	<class>medico.consultorio.model.ConsultaMedica</class>
+	   	<class>medico.consultorio.model.Exame</class>
+	   	<class>medico.consultorio.model.MarcaExame</class>
 	   	
 	   	
 	   	<class>especialidade.sistema.model.Especialidades</class>
