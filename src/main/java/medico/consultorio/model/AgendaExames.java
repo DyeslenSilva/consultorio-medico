@@ -8,9 +8,9 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Data
-@Table(name = "agendaExames")
+@Table(name = "agendaexames")
 @Entity
-public class MarcaExame  {
+public class AgendaExames  {
 
 	@Id
 	private String tokenExame;

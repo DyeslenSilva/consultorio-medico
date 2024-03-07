@@ -27,6 +27,8 @@ import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+import especialidade.sistema.dao.EspecialidadeDAO;
+import especialidade.sistema.model.Especialidades;
 import estado.sistema.dao.EstadoDAO;
 import medico.consultorio.database.dao.ConsultaDAO;
 import medico.consultorio.database.dao.MedicoDAO;
@@ -52,6 +54,7 @@ public class AgendarConsultaMedica {
 	
 	private JComboBox<Medico> jcbMedicos;
 	private JComboBox<String>estados;
+	private JComboBox<Especialidades> especialidades;
 	
 	
 	
@@ -81,7 +84,7 @@ public class AgendarConsultaMedica {
 		txCidadeConsulta = new JTextField();
 		//txEstadoConsulta = new JTextField();
 		
-		
+		especialidades = new JComboBox<Especialidades>();
 		estados = new JComboBox<String>();
 		jcbMedicos = new JComboBox<Medico>();
 		estados = new JComboBox<String>();
@@ -139,7 +142,7 @@ public class AgendarConsultaMedica {
 		agendarConsultaMedica.add(txTokenConsulta);
 		agendarConsultaMedica.add(txCPF);
 		agendarConsultaMedica.add(txNomePaciente);
-		agendarConsultaMedica.add(txEspecialidade);
+		agendarConsultaMedica.add(especialidades);
 		agendarConsultaMedica.add(txDataConsulta);
 		agendarConsultaMedica.add(txHoraConsulta);
 		agendarConsultaMedica.add(txEndereco);
@@ -149,7 +152,7 @@ public class AgendarConsultaMedica {
 		txTokenConsulta.setBounds(150, 10, 130, 20);
 		txCPF.setBounds(150, 40, 130, 20);
 		txNomePaciente.setBounds(150, 70, 130, 20);
-		txEspecialidade.setBounds(150, 130, 130, 20);
+		especialidades.setBounds(150, 130, 130, 20);
 		txDataConsulta.setBounds(150, 160, 130, 20);
 		txHoraConsulta.setBounds(150, 190, 130, 20);
 		txEndereco.setBounds(150, 220, 130, 20);
@@ -168,6 +171,11 @@ public class AgendarConsultaMedica {
 		}
 	}
 	
+	
+	private void carregarEspecialidade() {
+		EspecialidadeDAO especDAO = new EspecialidadeDAO();
+		
+	}
 	
 	
 	private void jButton() {

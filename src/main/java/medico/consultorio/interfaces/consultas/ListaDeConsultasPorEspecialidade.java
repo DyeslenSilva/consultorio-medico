@@ -61,7 +61,7 @@ public class ListaDeConsultasPorEspecialidade {
 		
 		lbEspecialidade.setBounds(10, 10, 100, 20);
 		txEspecialidade.setBounds(100, 10, 100, 20);
-		btBuscarEspecialidade.setBounds(240, 10, 160, 20);
+		btBuscarEspecialidade.setBounds(360, 10, 160, 20);
 		
 		jScrollPane.setBounds(10, 60, 930, 400);
 		

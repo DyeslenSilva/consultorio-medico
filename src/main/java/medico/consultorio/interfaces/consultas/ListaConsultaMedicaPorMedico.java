@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -13,16 +14,19 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import medico.consultorio.database.dao.ConsultaDAO;
+import medico.consultorio.database.dao.MedicoDAO;
 import medico.consultorio.model.ConsultaMedica;
+import medico.consultorio.model.Medico;
 
 public class ListaConsultaMedicaPorMedico {
 	
 	private JFrame listaConsultaPorMedico;
 	private JLabel lbNomeMedico;
-	private JTextField txNomeMedico;
+	//private JTextField txNomeMedico;
 	private JButton btPesquisarConsulta;
 	private JScrollPane jScrollPane;
 	private JTable tbListaConsultaPorMedico;
+	private JComboBox<String> cbMedicos;
 	
 	
 	public ListaConsultaMedicaPorMedico() {
@@ -30,12 +34,14 @@ public class ListaConsultaMedicaPorMedico {
 		
 		lbNomeMedico = new JLabel("Nome do Médico");
 		
-		txNomeMedico = new JTextField();
+		//txNomeMedico = new JTextField();
 		
 		btPesquisarConsulta = new JButton("Pesquisar Consulta");
 		
 		tbListaConsultaPorMedico = new JTable();
 		jScrollPane = new JScrollPane(tbListaConsultaPorMedico);
+		
+		cbMedicos = new JComboBox<String>();
 
 	}
 	
@@ -51,19 +57,22 @@ public class ListaConsultaMedicaPorMedico {
 
 	private void comps() {
 		listaConsultaPorMedico.add(lbNomeMedico);
-		listaConsultaPorMedico.add(txNomeMedico);
+		listaConsultaPorMedico.add(cbMedicos);
 		listaConsultaPorMedico.add(btPesquisarConsulta);
 		listaConsultaPorMedico.add(jScrollPane);
 		
 		lbNomeMedico.setBounds(10, 10, 100, 20);
-		txNomeMedico.setBounds(130, 10, 130, 20);
+		cbMedicos.setBounds(130, 10, 130, 20);
 		btPesquisarConsulta.setBounds(270, 10, 150, 20);
 		jScrollPane.setBounds(10, 50, 1150, 500);
+		
+		carregaMedicos();
+
+		
 		btPesquisarConsulta.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					String nomeMedico = txNomeMedico.getText();
+					String nomeMedico = cbMedicos.getSelectedItem().toString();
 					ConsultaDAO consDao = new ConsultaDAO();
 					
 					List<ConsultaMedica> cm = consDao.listaConsultaPorMedico(nomeMedico);
@@ -102,6 +111,16 @@ public class ListaConsultaMedicaPorMedico {
 					ajustarTamanhoDaColuna();
 			}
 		});
+		
+	}
+	
+	
+	private void carregaMedicos() {
+		MedicoDAO medDAO = new MedicoDAO();
+		List<Medico> listaMedicos =medDAO.listarTodosOsMedicos();
+		for(Medico medicos : listaMedicos) {
+			cbMedicos.addItem(medicos.getNomeMedico());
+		}
 	}
 	
 	private void ajustarTamanhoDaColuna() {

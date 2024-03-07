@@ -16,6 +16,6 @@ public class Especialidades {
 	private String siglaEspecialidade;
 	
 	@Column
-	private String nomeEspec;
+	private String nomeEspecialidade;
 	
 }

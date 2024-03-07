@@ -31,7 +31,7 @@ import medico.consultorio.database.dao.MedicoDAO;
 import medico.consultorio.database.dao.PacienteDAO;
 import medico.consultorio.model.Exame;
 import medico.consultorio.model.GeradorToken;
-import medico.consultorio.model.MarcaExame;
+import medico.consultorio.model.AgendaExames;
 import medico.consultorio.model.Medico;
 import medico.consultorio.model.Paciente;
 
@@ -109,7 +109,6 @@ public class AgendamentoExames {
 		lbDataExame.setBounds(10, 160, 100, 20);
 		lbHoraExame.setBounds(10, 190, 100, 20);
 		lbDescricao.setBounds(10, 220, 100, 20);
-
 	}
 
 	private void jTextField() {
@@ -244,7 +243,7 @@ public class AgendamentoExames {
 				String horaExame = txHoraExame.getText();
 				String descricao = taDescricao.getText();
 				
-				MarcaExame exame = new MarcaExame();
+				AgendaExames exame = new AgendaExames();
 				AgendaExameDAO ageDAO = new AgendaExameDAO();
 				
 				
