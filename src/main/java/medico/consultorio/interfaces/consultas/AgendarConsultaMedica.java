@@ -54,7 +54,7 @@ public class AgendarConsultaMedica {
 	
 	private JComboBox<Medico> jcbMedicos;
 	private JComboBox<String>estados;
-	private JComboBox<Especialidades> especialidades;
+	private JComboBox<String> especialidades;
 	
 	
 	
@@ -84,7 +84,7 @@ public class AgendarConsultaMedica {
 		txCidadeConsulta = new JTextField();
 		//txEstadoConsulta = new JTextField();
 		
-		especialidades = new JComboBox<Especialidades>();
+		especialidades = new JComboBox<String>();
 		estados = new JComboBox<String>();
 		jcbMedicos = new JComboBox<Medico>();
 		estados = new JComboBox<String>();
@@ -95,7 +95,8 @@ public class AgendarConsultaMedica {
 		btAgendarConsulta = new JButton("Agendar Consulta");
 		
 		carregarMedicos();
-		
+		carregarEstados();
+		carregarEspecialidade();
 	}
 	
 	public void setAgendarConsultaMedica() {
@@ -174,7 +175,11 @@ public class AgendarConsultaMedica {
 	
 	private void carregarEspecialidade() {
 		EspecialidadeDAO especDAO = new EspecialidadeDAO();
+		List<Especialidades> listaEspec = especDAO.listaTodasEspecialidades();
 		
+		for(Especialidades espec : listaEspec) {
+			especialidades.addItem(espec.getNomeEspecialidade());
+		}
 	}
 	
 	
@@ -267,7 +272,7 @@ public class AgendarConsultaMedica {
 				String cpf = txCPF.getText();
 				String nome = txNomePaciente.getText();
 				String medico = ((Medico) jcbMedicos.getSelectedItem()).getNomeMedico();
-				String especialidade = txEspecialidade.getText();
+				String especialidade = especialidades.getSelectedItem().toString();
 				String dataDaConsulta = txDataConsulta.getText();
 				String horaDaConsulta = txHoraConsulta.getText();
 				String endereco = txEndereco.getText();
@@ -417,7 +422,8 @@ public class AgendarConsultaMedica {
 					Medico medicoSelecionado = (Medico) jcbMedicos.getSelectedItem();
 					
 					if(medicoSelecionado != null) {
-						txEspecialidade.setText(medicoSelecionado.getEspecialidade());
+						String especMedico = medicoSelecionado.getEspecialidade();
+						especialidades.setSelectedItem(especMedico);
 					}
 			}
 		});		

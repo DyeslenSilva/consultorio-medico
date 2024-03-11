@@ -2,12 +2,18 @@ package medico.consultorio.interfaces.cadastro;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import especialidade.sistema.dao.EspecialidadeDAO;
+import especialidade.sistema.model.Especialidades;
+import estado.sistema.dao.EstadoDAO;
+import estado.sistema.model.Estado;
 import medico.consultorio.database.dao.MedicoDAO;
 import medico.consultorio.model.GerarCPF;
 import medico.consultorio.model.GerarCRM;
@@ -21,6 +27,9 @@ public class CadastroProfissionalMedico {
 	private JTextField txCRM, txNomeDoMedico, txEspecialidade;
 	private JTextField txDDD, txTelefone, txEmail, txCidade ,txEstado;
 	private JButton btGerarCRM, btCadastrarMedico;
+	private JComboBox<String> cbEstados;
+	private JComboBox<String> cbEspecialidade;
+	
 	
 	
 	public CadastroProfissionalMedico() {
@@ -51,6 +60,9 @@ public class CadastroProfissionalMedico {
 		btCadastrarMedico = new JButton("Cadastrar Medico");
 		btGerarCRM = new JButton("Gerar CRM");
 		
+		cbEstados = new JComboBox<String>();
+		cbEspecialidade = new JComboBox<String>();
+		
 		//jButton();
 	}
 	
@@ -61,10 +73,40 @@ public class CadastroProfissionalMedico {
 		jLabel();
 		jButton();
 		jTextField();
+		jComboBox();		
 		cadProfissionarMedico.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		cadProfissionarMedico.setVisible(true);
 	}
 	
+	private void jComboBox() {
+		cadProfissionarMedico.add(cbEstados);
+		cadProfissionarMedico.add(cbEspecialidade);
+		
+		cbEspecialidade.setBounds(110, 70, 100, 20);
+		cbEstados.setBounds(110, 220, 100, 20);
+
+		carregarEspecialidade();
+		carregarEstados();
+	}
+
+	private void carregarEstados() {
+		EstadoDAO estadoDAO=  new EstadoDAO();
+		List<Estado> listaEstado = estadoDAO.listaTodosEstados();
+		
+		for(Estado estado : listaEstado) {
+			cbEstados.addItem(estado.getUf());
+		}
+	}
+	
+	private void carregarEspecialidade() {
+		EspecialidadeDAO especDAO = new EspecialidadeDAO();
+		List<Especialidades> listaEspec = especDAO.listaTodasEspecialidades();
+		
+		for(Especialidades espec : listaEspec) {
+			cbEspecialidade.addItem(espec.getNomeEspecialidade());
+		}
+	}
+
 	private void jLabel() {
 		cadProfissionarMedico.add(lbCRM);
 		cadProfissionarMedico.add(lbNomeDoMedico);
@@ -89,7 +131,6 @@ public class CadastroProfissionalMedico {
 	private void jTextField() {
 		cadProfissionarMedico.add(txCRM);
 		cadProfissionarMedico.add(txNomeDoMedico);
-		cadProfissionarMedico.add(txEspecialidade);
 		cadProfissionarMedico.add(txDDD);
 		cadProfissionarMedico.add(txTelefone);
 		cadProfissionarMedico.add(txEmail);
@@ -98,12 +139,10 @@ public class CadastroProfissionalMedico {
 		
 		txCRM.setBounds(110, 10, 100, 20);
 		txNomeDoMedico.setBounds(110, 40, 100, 20);
-		txEspecialidade.setBounds(110, 70, 100, 20);
 		txDDD.setBounds(110, 100, 100, 20);
 		txTelefone.setBounds(110, 130, 100, 20);
 		txEmail.setBounds(110, 160, 100, 20);
 		txCidade.setBounds(110, 190, 100, 20);
-		txEstado.setBounds(110, 220, 100, 20);
 	}
 	
 	private void jButton() {
@@ -127,12 +166,12 @@ public class CadastroProfissionalMedico {
 				MedicoDAO medicoDAO = new MedicoDAO();
 				medico.setCrm(txCRM.getText());
 				medico.setNomeMedico(txNomeDoMedico.getText());
-				medico.setEspecialidade(txEspecialidade.getText());
+				medico.setEspecialidade(cbEspecialidade.getSelectedItem().toString());
 				medico.setDdd(Integer.parseInt(txDDD.getText()));
 				medico.setTelefone(txTelefone.getText());
 				medico.setEmail(txEmail.getText());
 				medico.setCidade(txCidade.getText());
-				medico.setEstado(txEstado.getText());
+				medico.setEstado(cbEstados.getSelectedItem().toString());
 		
 				medicoDAO.cadastroMedico(medico);
 				limparTxt();

@@ -9,9 +9,13 @@
 	   	<class>medico.consultorio.model.ConsultaMedica</class>
 	   	<class>medico.consultorio.model.Exame</class>
 	   	<class>medico.consultorio.model.AgendaExames</class>
-	   	
+	   
 	   	<class>especialidade.sistema.model.Especialidades</class>
+	   	<class>medico.cirurgias.model.Cirurgias</class>
+	   	<class>medico.cirurgias.model.Especialidades</class>
+	   	<class>medico.cirurgias.model.AgendaCirurgias</class>
 	   	
+	   	<class>medico.cirurgias.model.MedicoCirurgiao</class>
 	 	<class>estado.sistema.model.Estado</class>
 	    	
 	    <properties>
