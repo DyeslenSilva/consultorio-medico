@@ -1,10 +1,14 @@
 package medico.cirurgias.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 import medico.cirurgias.model.AgendaCirurgias;
+import medico.cirurgias.model.Cirurgias;
 
 public class AgendaCirurgiaDAO {
 
@@ -23,5 +27,14 @@ public class AgendaCirurgiaDAO {
 		em.getTransaction().commit();
 		em.close();
 	}
+	
+	
+	public List<AgendaCirurgias> listaTodasCirurgias(){
+		TypedQuery<AgendaCirurgias> query = em.createQuery("select p from  agendacirurgia p" , AgendaCirurgias.class);
+		return query.getResultList();
+	}
+	
+	
+	
 	
 }

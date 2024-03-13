@@ -13,6 +13,8 @@ public class CirurugiaDAO {
 
 		private EntityManagerFactory emf = null;
 		private EntityManager em = null;
+		private Cirurgias cirurgias = null;
+		
 		
 		public CirurugiaDAO() {
 			emf = Persistence.createEntityManagerFactory("medico-consultorio");
@@ -31,5 +33,11 @@ public class CirurugiaDAO {
 			TypedQuery<Cirurgias> query = em.createQuery(jpql, Cirurgias.class);
 			List<Cirurgias> todasAsCirurgias = query.getResultList();
 			return todasAsCirurgias;
+		}
+		
+		public Cirurgias listaCirurgiaPorNome(String nomeCirurgia) {
+	        TypedQuery<Cirurgias> query = em.createQuery("SELECT p FROM cirurgia p WHERE p.nomeCirurgia = :nomeCirurgia", Cirurgias.class);
+	        query.setParameter("nomeCirurgia", nomeCirurgia);
+	        return query.getSingleResult();
 		}
 }

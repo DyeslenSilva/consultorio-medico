@@ -1,18 +1,34 @@
 package medico.cirurgias.intefaces;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 
+import org.jdesktop.swingx.JXDatePicker;
+
+import medico.cirurgias.dao.AgendaCirurgiaDAO;
 import medico.cirurgias.dao.CirurugiaDAO;
 import medico.cirurgias.dao.MedicoCirurgiaoDAO;
+import medico.cirurgias.model.AgendaCirurgias;
 import medico.cirurgias.model.Cirurgias;
 import medico.cirurgias.model.MedicoCirurgiao;
 import medico.consultorio.database.dao.MedicoDAO;
@@ -138,6 +154,23 @@ public class AgendarCirurgia {
 		carregarCirurgias();
 		carregarCirurgiao();
 		carregarMedReq();
+		
+		cirurgias.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String cirurgiaSelecionada  = cirurgias.getSelectedItem().toString();
+				
+				CirurugiaDAO cirurugiaDAO = new CirurugiaDAO();
+				
+				Cirurgias cir  = cirurugiaDAO.listaCirurgiaPorNome(cirurgiaSelecionada);
+				
+				
+				txTipoCirurgia.setText(cir.getTipoCirurgia());
+				txRiscoCirurgia.setText(cir.getRiscoCirurgia());
+			}
+		});
+		
 	}
 	
 	private void jButton() {
@@ -166,15 +199,98 @@ public class AgendarCirurgia {
 		btBuscaCPF.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PacienteDAO pacienteDAO = new PacienteDAO();
-				String cpf = txCPF.getText();
-				Paciente pac = pacienteDAO.consultaClientePorCPF(cpf);
-				txNomeDoPaciente.setText(pac.getNomePaciente());
+				String cpf = JOptionPane.showInputDialog("Entre com o CPF");
+				
+				if(cpf != null) {
+					PacienteDAO pacienteDAO = new PacienteDAO();
+					Paciente pac = pacienteDAO.consultaClientePorCPF(cpf);
+					if(pac !=null) {
+						txCPF.setText(pac.getCpf());
+						txNomeDoPaciente.setText(pac.getNomePaciente());
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Paciente nao encontrado");
+				}
 			}
 		});
 		
+		
+		dataCirurgia.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				calendarioAnual();
+			}
+		});
+		
+		
+		horaCirurgia.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame horMinuto = new JFrame();
+				horMinuto.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				horMinuto.setSize(200,200);
+				
+				SpinnerModel horaModel = new SpinnerNumberModel(0,0,23,1);
+				JSpinner horaSpinner = new JSpinner(horaModel);
+				
+				SpinnerModel minutoModel = new SpinnerNumberModel(0,0,59,1);
+				JSpinner minutoSpinner = new JSpinner(minutoModel);
+				
+				JButton confirmarHora = new JButton("Confirmar Hora");
+				confirmarHora.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						int hora = (int) horaSpinner.getValue();
+						int min = (int) minutoModel.getValue();
+						txHoraCirurgia.setText(String.format("%02d:%02d", hora, min));
+						horMinuto.dispose();
+					}
+				});
+				
+				horMinuto.setLayout(new GridLayout(3,1));
+				horMinuto.add(horaSpinner);
+				horMinuto.add(minutoSpinner);
+				horMinuto.add(confirmarHora);
+				horMinuto.setVisible(true);
+				
+			}
+		});
+		
+		btAgendaCirurgia.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AgendaCirurgias agCir = new AgendaCirurgias();
+				AgendaCirurgiaDAO agCiDAO = new AgendaCirurgiaDAO();
+				
+				String token = txToken.getText();
+				String cpf = txCPF.getText();
+				String nomePaciente = txNomeDoPaciente.getText();
+				String medRequirente = medicoRequirente.getSelectedItem().toString();
+				String medCirurgiao = medicoCirurgiao.getSelectedItem().toString();
+				String nomeCirurgia = cirurgias.getSelectedItem().toString();
+				String tipoCirurgia = txTipoCirurgia.getText();
+				String riscoCirurgia = txRiscoCirurgia.getText();
+				String dataCirurgia = txDataCirurgia.getText();
+				String horaCirurgia = txHoraCirurgia.getText();
+				
+				agCir.setToken(token);
+				agCir.setCpf(cpf);
+				agCir.setNomePaciente(nomePaciente);
+				agCir.setMedicoRequerente(medRequirente);
+				agCir.setMedicoCirurgiao(medCirurgiao);
+				agCir.setNomeCirurgia(nomeCirurgia);
+				agCir.setTipoCirurgia(tipoCirurgia);
+				agCir.setRiscoCirurgia(riscoCirurgia);
+				agCir.setDataCirurgia(dataCirurgia);
+				agCir.setHoraCirurgia(horaCirurgia);
+				
+				agCiDAO.agendarCirurgia(agCir);
+			}
+		});	
 	}
-
 	
 	private void carregarCirurgiao() {
 		MedicoCirurgiaoDAO medCirDAO = new MedicoCirurgiaoDAO();
@@ -200,6 +316,53 @@ public class AgendarCirurgia {
 			medicoRequirente.addItem(med.getNomeMedico());
 		}
 	}
+	
+	
+	private void calendarioAnual() {
+		JFrame calendario = new JFrame();
+		calendario.setSize(300, 300);
+		
+		JPanel painel = new JPanel(new GridLayout(3,4,10,10));
+		Calendar calendar = Calendar.getInstance();
+		
+		JPanel panelCalendar = criarPainelDoCalendario(calendar);
+		painel.add(panelCalendar);
+		
+		calendario.add(painel);
+		calendario.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		calendario.setVisible(true);
+	}
+	
+	
+	private JPanel criarPainelDoCalendario(Calendar calendar) {
+		JPanel  painelCalendario = new JPanel();		JXDatePicker datePicker = new JXDatePicker();
+		datePicker.setDate(calendar.getTime());
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		datePicker.setPreferredSize(new Dimension(120,20));
+		
+		JButton escolherData = new JButton("Escolher Data");
+		
+		escolherData.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Date date = datePicker.getDate();
+				String formDate = sdf.format(date);
+				txDataCirurgia.setText(formDate);
+				
+				Window parWindow = SwingUtilities.getWindowAncestor(escolherData);
+				if(parWindow != null) {
+					parWindow.dispose() ;
+				}
+			}
+		});
+		painelCalendario.add(datePicker, BorderLayout.CENTER);
+		painelCalendario.add(escolherData , BorderLayout.EAST);
+		return painelCalendario;
+		}
+
+
 	public static void main(String[] args) {
 		new AgendarCirurgia()
 			.setAgendarCirurgia();
